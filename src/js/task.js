@@ -1,23 +1,26 @@
-export default function orderByProps(object, props = []) {
-  const arrayWithProps = [];
-  const arrayWithoutProps = [];
+export default function sortObj(obj, rules) {
+  const outputArr = [];
+  const sortedKeys = Object.keys(obj).sort();
 
-  props.forEach((key) => {
-    if (key in object) {
-      arrayWithProps.push({
-        key,
-        value: object[key],
-      });
+  if (!rules) {
+    for (const key of sortedKeys) {
+      outputArr.push({ key, value: obj[key] });
     }
-  });
-  for (const key in object) {
-    if (!props.includes(key)) {
-      arrayWithoutProps.push({
-        key,
-        value: object[key],
-      });
+    return outputArr;
+  }
+  // eslint-disable-next-line no-prototype-builtins
+  if (rules.some((e) => !obj.hasOwnProperty(e))) {
+    throw new Error('Введены не правильные параметры');
+  }
+
+  for (const key in obj) {
+    if (rules && rules.includes(key)) {
+      outputArr[rules.indexOf(key)] = { key, value: obj[key] };
+      sortedKeys.splice(sortedKeys.indexOf(key), 1);
     }
   }
-  arrayWithoutProps.sort((a, b) => (a.key > b.key ? 1 : -1));
-  return [...arrayWithProps, ...arrayWithoutProps];
+  for (const key of sortedKeys) {
+    outputArr.push({ key, value: obj[key] });
+  }
+  return outputArr;
 }
