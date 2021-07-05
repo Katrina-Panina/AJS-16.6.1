@@ -1,3 +1,4 @@
+//eslint-disable-next-line
 export default function sortObj(obj, rules) {
   const outputArr = [];
   const sortedKeys = Object.keys(obj).sort();
