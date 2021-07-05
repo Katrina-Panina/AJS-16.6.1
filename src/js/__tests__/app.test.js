@@ -1,4 +1,4 @@
-import sortObj from '../app';
+import sortObj from '../task';
 
 const testObj = {
   name: 'мечник',
